@@ -96,7 +96,7 @@ describe("Fact Cache Logic", () => {
     });
   });
 
-  it("returns cached fact when Gemini fails", async () => {
+  it("returns cached fact when Claude fails", async () => {
     mockFindUnique.mockResolvedValue({ favoriteMovie: "Inception" });
     mockFindFirst.mockResolvedValue({
       id: "fact-1",
@@ -104,7 +104,7 @@ describe("Fact Cache Logic", () => {
       createdAt: new Date(Date.now() - 90_000),
     });
     mockUpdateMany.mockResolvedValue({ count: 1 });
-    mockGenerateMovieFact.mockRejectedValue(new Error("Gemini timeout"));
+    mockGenerateMovieFact.mockRejectedValue(new Error("Claude timeout"));
 
     const result = await getOrGenerateFact("user-1");
 
@@ -115,11 +115,11 @@ describe("Fact Cache Logic", () => {
     });
   });
 
-  it("returns error when Gemini fails and no cache exists", async () => {
+  it("returns error when Claude fails and no cache exists", async () => {
     mockFindUnique.mockResolvedValue({ favoriteMovie: "Inception" });
     mockFindFirst.mockResolvedValue(null);
     mockUpdateMany.mockResolvedValue({ count: 1 });
-    mockGenerateMovieFact.mockRejectedValue(new Error("Gemini timeout"));
+    mockGenerateMovieFact.mockRejectedValue(new Error("Claude timeout"));
 
     const result = await getOrGenerateFact("user-1");
 
