@@ -17,6 +17,9 @@ export default async function DashboardPage() {
     where: { id: session.user.id },
     select: { name: true, email: true, image: true, favoriteMovie: true },
   });
+  if (!user) {
+    redirect("/");
+  }
 
   if (!user?.favoriteMovie) {
     redirect("/onboarding");
