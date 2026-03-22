@@ -27,6 +27,31 @@ describe("validateMovieInput", () => {
     });
   });
 
+  it("rejects array input", () => {
+    expect(validateMovieInput([])).toEqual({
+      valid: false,
+      error: "Movie name must be a string.",
+    });
+  });
+
+  it("rejects object input", () => {
+    expect(validateMovieInput({})).toEqual({
+      valid: false,
+      error: "Movie name must be a string.",
+    });
+  });
+
+  it("rejects boolean input", () => {
+    expect(validateMovieInput(true)).toEqual({
+      valid: false,
+      error: "Movie name must be a string.",
+    });
+    expect(validateMovieInput(false)).toEqual({
+      valid: false,
+      error: "Movie name must be a string.",
+    });
+  });
+
   it("rejects empty string", () => {
     expect(validateMovieInput("")).toEqual({
       valid: false,
