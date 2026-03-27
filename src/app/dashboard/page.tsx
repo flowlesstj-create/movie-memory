@@ -13,10 +13,16 @@ export default async function DashboardPage() {
     redirect("/");
   }
 
-  const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
-    select: { name: true, email: true, image: true, favoriteMovie: true },
-  });
+  let user;
+  try {
+    user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { name: true, email: true, image: true, favoriteMovie: true },
+    });
+  } catch (error) {
+    console.error("Database error fetching user:", error);
+    redirect("/");
+  }
 
   if (!user?.favoriteMovie) {
     redirect("/onboarding");
