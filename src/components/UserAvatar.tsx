@@ -10,11 +10,15 @@ export default function UserAvatar({ name, image }: UserAvatarProps) {
     return (
       <Image
         src={image}
-        alt={name || "User"}
+        alt={name ? name.replace(/[<>"'&]/g, "") : "User"}
         width={48}
         height={48}
         className="rounded-full"
         referrerPolicy="no-referrer"
+        onError={(e) => {
+          (e.target as HTMLImageElement).style.display = "none";
+        }}
+        aria-label={name || "User avatar"}
       />
     );
   }
@@ -27,7 +31,11 @@ export default function UserAvatar({ name, image }: UserAvatarProps) {
     .slice(0, 2);
 
   return (
-    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-700 font-semibold text-sm">
+    <div
+      className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-700 font-semibold text-sm"
+      aria-label={name || "User avatar"}
+      role="img"
+    >
       {initials}
     </div>
   );

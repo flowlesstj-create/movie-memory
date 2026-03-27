@@ -11,6 +11,14 @@ export default function MovieForm() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    
+    // Validate input before submission
+    const trimmedMovie = movie.trim();
+    if (!trimmedMovie) {
+      setError("Please enter a movie title.");
+      return;
+    }
+    
     setError("");
     setLoading(true);
 
@@ -18,7 +26,7 @@ export default function MovieForm() {
       const res = await fetch("/api/onboarding", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ movie }),
+        body: JSON.stringify({ movie: trimmedMovie }),
       });
 
       const data = await res.json();
