@@ -37,6 +37,8 @@ describe("Fact API Authorization", () => {
     const response = await POST();
 
     expect(response.status).toBe(401);
+    const body = await response.json();
+    expect(body.error).toBe("Unauthorized");
   });
 
   it("uses session user id to fetch facts (not request body)", async () => {
